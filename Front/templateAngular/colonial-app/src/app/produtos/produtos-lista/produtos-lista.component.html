@@ -1,0 +1,115 @@
+<h1 class="mt-4">Produto</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item active">Consulta</li>
+</ol>
+
+<div class="container">
+    <form #consultaForm="ngForm" (submit)="consultar()">
+        <div class="row">
+            <div class="col-md-6">
+                <label for="inputNome">Nome do Produto:</label>
+                <input type="text" [(ngModel)]="nome" name="nome" id="inputNome" class="form-control">
+            </div>
+        </div>
+
+        <br>
+
+        <div class="row">
+            <div class="col-md-5">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa fa-search"></i>Consultar
+                </button>
+                <button type="button" 
+                        class="btn btn-warning ml-1" 
+                        routerLink="/produtosForm"
+                >
+                    <i class="fa fa-plus"></i>Novo
+                </button>
+            </div>
+
+        </div>
+    </form>
+
+    <br>
+
+    <div class="row">
+        <div class="alert alert-warning col-12" role="alert" *ngIf="menssage">
+            {{menssage}}
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-12">
+            <div class="alert alert-success" role="alert" *ngIf="mensagemSucesso">
+                {{ mensagemSucesso }}
+            </div>
+
+            <div class="alert alert-danger" role="alert" *ngIf="mensagemErro">
+                {{ mensagemErro }}
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>valor</th>
+                        <th>Produtores</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let produto of lista">
+                        <td>{{ produto.nome }}</td>
+                        <td>{{ produto.valor }}</td>
+                        <td>{{ produto.produtores.nome }}</td>
+                        <td>
+                            <button class="btn btn-primary" 
+                                routerLink="/produtosForm/{{produto.id}}"
+                            >
+                                <i class="fa fa-pen-square"></i>
+                            </button>
+                            <button class="btn btn-danger ml-1" 
+                                (click)="preparaDelecao(produto)"
+                                data-toggle="modal"
+                                data-target="#modalSelecao"
+                            >
+                                <i class="fa fa-trash"></i> 
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="modalSelecao" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Confirmação</h4>
+                </div>
+
+                <div class="modal-body" *ngIf="produtoSelecionado">
+                     Confirma a deleção do Paciente {{ produtoSelecionado.nome }} ?
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-success"
+                    data-toggle="modal"
+                    data-target="#modalSelecao" 
+                    (click)="deletarExame()"
+                    data-dismiss="modal">Confirmar</button> 
+
+                    <button class="btn btn-danger" 
+                    data-dismiss="modal">Cancelar</button>                     
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
